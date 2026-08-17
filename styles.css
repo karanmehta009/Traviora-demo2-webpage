@@ -1,0 +1,205 @@
+/* ===== TRAVIORA — Shared Styles ===== */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --brand-50: #f0f9ff; --brand-100: #e0f2fe; --brand-200: #bae6fd;
+  --brand-400: #38bdf8; --brand-500: #0ea5e9; --brand-600: #0284c7;
+  --brand-700: #0369a1; --brand-800: #075985; --brand-900: #0c4a6e;
+  --accent-400: #f472b6; --accent-500: #ec4899; --accent-600: #db2777;
+  --violet-500: #8b5cf6;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', system-ui, sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Utilities ── */
+.gradient-text {
+  background: linear-gradient(135deg, #0ea5e9, #8b5cf6, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-warm {
+  background: linear-gradient(135deg, #f59e0b, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glass ── */
+.glass {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.glass-light {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* ── Navigation ── */
+.nav-glass {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(148,163,184,0.2);
+}
+
+/* ── Cards ── */
+.card-hover {
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -15px rgba(14,165,233,0.2);
+}
+.card-hover-warm:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -15px rgba(236,72,153,0.2);
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(14,165,233,0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(14,165,233,0.4);
+}
+.btn-secondary {
+  background: white;
+  color: #0f172a;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.btn-secondary:hover { background: #f8fafc; transform: translateY(-1px); }
+
+/* ── Blob animations ── */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  animation: blob-drift 12s infinite;
+}
+@keyframes blob-drift {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(50px,-50px) scale(1.12); }
+  66%      { transform: translate(-40px,30px) scale(0.92); }
+}
+
+/* ── Float animation ── */
+.float { animation: float 8s ease-in-out infinite; }
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-18px); }
+}
+
+/* ── Fade in ── */
+.fade-in { animation: fadeIn 0.5s ease; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Progress steps ── */
+.step-active { background: linear-gradient(135deg,#0ea5e9,#0284c7); color: white; }
+.step-done   { background: #10b981; color: white; }
+.step-pending { background: #e2e8f0; color: #64748b; }
+
+/* ── Badge ── */
+.badge { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 9999px; }
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-blue  { background: #dbeafe; color: #1e40af; }
+.badge-pink  { background: #fce7f3; color: #9d174d; }
+.badge-amber { background: #fef3c7; color: #92400e; }
+
+/* ── Tour image ── */
+.tour-img { transition: transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+.card-hover:hover .tour-img { transform: scale(1.08); }
+
+/* ── Shimmer for loading ── */
+@keyframes shimmer {
+  0%   { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+/* ── Tab underline ── */
+.tab-active {
+  color: #0ea5e9;
+  border-bottom: 2.5px solid #0ea5e9;
+}
+
+/* ── Section label ── */
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: white;
+  border-radius: 1.5rem;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.25);
+}
+
+/* ── Timeline ── */
+.tl-dot-done { background: #10b981; color: white; }
+.tl-dot-active { background: #0ea5e9; color: white; }
+.tl-dot-pending { background: #e2e8f0; color: #94a3b8; }
+
+/* ── Responsive helpers ── */
+@media (max-width: 640px) {
+  .hide-sm { display: none !important; }
+}
