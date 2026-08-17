@@ -85,7 +85,7 @@
                 
                 <div class="relative group">
                     <button
-                        class="bg-black text-white px-5 md:px-7 py-2.5 md:py-3.5 rounded-full text-xs md:text-sm font-bold hover:bg-slate-800 transition shadow-lg shadow-black/10 flex items-center gap-2">
+                        class="bg-black text-white px-4 md:px-7 py-1.5 md:py-3.5 rounded-full text-[11px] md:text-sm font-bold hover:bg-slate-800 transition shadow-lg shadow-black/10 flex items-center gap-2">
                         Start Application <i class="fa-solid fa-chevron-down text-[10px] opacity-70 hidden sm:block"></i>
                     </button>
                     <!-- Dropdown -->
@@ -340,8 +340,10 @@
         window.addEventListener('scroll', () => {
             if (window.scrollY > lastScrollY && window.scrollY > 100) {
                 navbar.classList.add('-translate-y-full');
+                navbar.classList.remove('translate-y-0');
             } else {
                 navbar.classList.remove('-translate-y-full');
+                navbar.classList.add('translate-y-0');
             }
             navbar.style.transition = 'transform 0.3s ease';
             lastScrollY = window.scrollY;

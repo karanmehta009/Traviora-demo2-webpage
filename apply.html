@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply for Visa | Traviora</title>
+    <title>Application Portal | Traviora</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -22,245 +20,290 @@
     <style>
         body {
             font-family: 'Outfit', sans-serif;
-            background: #f8fafc;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
             color: #0a0a0a;
+            min-height: 100vh;
         }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease forwards;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0,0,0,0.03);
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .step-transition {
+            animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .upload-box {
             border: 2px dashed #cbd5e1;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
         .upload-box:hover {
             border-color: #2563eb;
             background: #eff6ff;
+            transform: translateY(-2px);
+        }
+        .input-field {
+            background: rgba(255,255,255,0.6);
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .input-field:focus {
+            background: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
+        }
+        .custom-radio:checked + div {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+        .custom-radio:checked + div .radio-inner {
+            background: #2563eb;
+            transform: scale(1);
         }
     </style>
 </head>
-
-<body class="min-h-screen flex flex-col justify-between">
+<body class="flex flex-col relative overflow-x-hidden">
+    <!-- Decorative background blobs -->
+    <div class="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-500/20 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-500/20 rounded-full blur-[140px] pointer-events-none z-0"></div>
 
     <!-- Header -->
-    <!-- Header -->
-    <nav id="navbar"
-        class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-2xl border-b border-black/5 transition-transform duration-300 transform translate-y-0 px-6 py-2.5 flex justify-between items-center">
-        <a href="index.html" class="flex flex-col items-center justify-center group mt-1">
-            <img src="assets/ChatGPT%20Image%20Aug%2017,%202026,%2012_36_42%20PM.png" alt="Traviora Logo" class="h-6 w-auto object-contain group-hover:scale-105 transition-transform mb-0.5">
-            <span class="font-black tracking-[0.3em] text-[#0a192f] text-sm leading-none uppercase ml-1">Traviora</span>
+    <nav id="navbar" class="w-full z-50 bg-white/30 backdrop-blur-md border-b border-white/50 px-6 py-4 flex justify-between items-center relative shadow-sm">
+        <a href="index.html" class="flex items-center gap-2 group">
+            <img src="assets/ChatGPT%20Image%20Aug%2017,%202026,%2012_36_42%20PM.png" alt="Traviora Logo" class="h-6 w-auto object-contain group-hover:scale-105 transition-transform">
+            <span class="font-black tracking-[0.3em] text-[#0a192f] text-sm leading-none uppercase mt-1">Traviora</span>
         </a>
-        <a href="index.html" class="text-slate-400 hover:text-black font-semibold text-sm"><i
-                class="fa-solid fa-xmark mr-1"></i> Exit</a>
+        <a href="index.html" class="text-slate-600 hover:text-black font-bold text-xs flex items-center gap-2 bg-white/70 px-4 py-2 rounded-full transition-all hover:bg-white shadow-sm border border-white"><i class="fa-solid fa-xmark"></i> Cancel</a>
     </nav>
 
-    <!-- Main Step Form Container -->
-    <div class="flex-grow flex items-center justify-center p-4 pt-28">
-        <div
-            class="w-full max-w-lg bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden relative my-6">
-
-            <!-- Progress Bar -->
-            <div class="w-full bg-slate-100 h-1.5 absolute top-0 left-0">
-                <div id="progressBar" class="bg-blue-600 h-1.5 w-1/5 transition-all duration-300"></div>
+    <!-- Main Container -->
+    <div class="flex-grow flex items-center justify-center p-4 py-12 relative z-10 w-full">
+        <div class="w-full max-w-[680px] glass-card rounded-[2.5rem] overflow-hidden relative">
+            
+            <!-- Progress Header -->
+            <div class="bg-white/50 p-6 md:px-10 border-b border-white/60 flex justify-between items-center backdrop-blur-sm" id="formHeader">
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-1" id="stepIndicator">Step 1 of 5</span>
+                    <h1 class="text-xl font-black text-slate-900" id="formTitle">Application Portal</h1>
+                </div>
+                <!-- Circular Progress -->
+                <div class="relative w-12 h-12 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                        <path class="text-slate-200" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path id="progressCircle" class="text-blue-600 transition-all duration-500 ease-out" stroke-dasharray="20, 100" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <span class="absolute text-[10px] font-bold text-slate-900" id="progressText">20%</span>
+                </div>
             </div>
 
-            <div class="p-5 md:p-8 min-h-[420px] md:min-h-[460px] flex flex-col justify-center">
+            <div class="p-6 md:p-10 min-h-[450px] flex flex-col justify-center">
 
                 <!-- Step 1: Destination -->
-                <div id="step1" class="step fade-in">
-                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1 block">Step 1 of 4</span>
-                    <h2 class="text-3xl font-black mb-2 text-slate-900 tracking-tight">Select Destination</h2>
-                    <p class="text-slate-500 text-sm font-medium mb-6">Where are you traveling to? Choose from popular
-                        options.</p>
+                <div id="step1" class="step step-transition">
+                    <h2 class="text-3xl font-black mb-3 text-slate-900 tracking-tight">Where are you going?</h2>
+                    <p class="text-slate-500 text-sm font-medium mb-8">Select your travel destination to view requirements.</p>
 
-                    <div class="grid grid-cols-2 gap-2 md:gap-3 mb-6 md:mb-8" id="countryGrid">
-                        <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200"
-                            onclick="selectCountry('United Arab Emirates', this)">
-                            <div
-                                class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-lg mb-2 shadow-sm">
-                                🇦🇪</div>
-                            <div class="font-bold text-sm text-slate-900">UAE</div>
-                            <div class="text-[10px] text-slate-500 font-medium">e-Visa</div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8" id="countryGrid">
+                        <!-- Default Grid -->
+                        <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-blue-600 hover:shadow-md transition-all text-center group" onclick="selectCountry('United Arab Emirates', this)">
+                            <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🇦🇪</div>
+                            <div class="font-bold text-xs text-slate-900">UAE</div>
                         </div>
-                        <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200"
-                            onclick="selectCountry('Thailand', this)">
-                            <div
-                                class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-lg mb-2 shadow-sm">
-                                🇹🇭</div>
-                            <div class="font-bold text-sm text-slate-900">Thailand</div>
-                            <div class="text-[10px] text-slate-500 font-medium">e-Visa</div>
+                        <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-blue-600 hover:shadow-md transition-all text-center group" onclick="selectCountry('Thailand', this)">
+                            <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🇹🇭</div>
+                            <div class="font-bold text-xs text-slate-900">Thailand</div>
                         </div>
-                        <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200"
-                            onclick="selectCountry('Schengen Area', this)">
-                            <div
-                                class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-lg mb-2 shadow-sm">
-                                🇪🇺</div>
-                            <div class="font-bold text-sm text-slate-900">Schengen</div>
-                            <div class="text-[10px] text-slate-500 font-medium">Sticker</div>
+                        <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-blue-600 hover:shadow-md transition-all text-center group" onclick="selectCountry('Schengen Area', this)">
+                            <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🇪🇺</div>
+                            <div class="font-bold text-xs text-slate-900">Schengen</div>
                         </div>
-                        <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200"
-                            onclick="selectCountry('United Kingdom', this)">
-                            <div
-                                class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-lg mb-2 shadow-sm">
-                                🇬🇧</div>
-                            <div class="font-bold text-sm text-slate-900">UK</div>
-                            <div class="text-[10px] text-slate-500 font-medium">Sticker</div>
+                        <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-blue-600 hover:shadow-md transition-all text-center group" onclick="selectCountry('United Kingdom', this)">
+                            <div class="text-2xl mb-2 group-hover:scale-110 transition-transform">🇬🇧</div>
+                            <div class="font-bold text-xs text-slate-900">UK</div>
                         </div>
                     </div>
 
                     <button onclick="nextStep(2)" id="btnStep1" disabled
-                        class="w-full bg-blue-600 text-white py-4 rounded-full font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/30 disabled:opacity-50 disabled:shadow-none">
-                        Continue to Documents
+                        class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/30 disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed">
+                        Continue to Details
                     </button>
                 </div>
 
-                <!-- Step 2: Documents Upload Simulation -->
-                <div id="step2" class="step hidden fade-in">
-                    <button onclick="prevStep(1)"
-                        class="text-slate-400 hover:text-black text-xs font-bold mb-4 flex items-center gap-1.5 transition-colors"><i
-                            class="fa-solid fa-arrow-left"></i> Back</button>
-                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1 block">Step 2 of 4</span>
-                    <h2 class="text-3xl font-black mb-2 text-slate-900 tracking-tight">Upload Documents</h2>
-                    <p class="text-slate-500 text-sm font-medium mb-6">Provide clear copies of the required documents
-                        below.</p>
+                <!-- Step 2: Applicant Details (Demo Data) -->
+                <div id="step2" class="step hidden step-transition">
+                    <button onclick="prevStep(1)" class="text-slate-400 hover:text-black text-[11px] uppercase tracking-widest font-black mb-6 flex items-center gap-1.5 w-max"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <h2 class="text-3xl font-black mb-3 text-slate-900 tracking-tight" id="step2Heading">Applicant Details</h2>
+                    <p class="text-slate-500 text-sm font-medium mb-8">Please review or enter your personal information. We've pre-filled this from your profile.</p>
 
-                    <div class="space-y-4 mb-8">
-                        <div class="upload-box rounded-2xl p-6 text-center cursor-pointer bg-slate-50 border-2 border-dashed border-slate-200 hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 group"
-                            onclick="simulateUpload(this, 'passportStatus')">
-                            <div
-                                class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-3 text-blue-600 group-hover:scale-110 transition-transform">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        <div>
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Full Name (As per passport)</label>
+                            <input type="text" value="Rohan Sharma" class="w-full input-field rounded-xl px-4 py-3.5 text-sm font-bold text-slate-900 outline-none">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Email Address</label>
+                            <input type="email" value="rohan.sharma@example.com" class="w-full input-field rounded-xl px-4 py-3.5 text-sm font-bold text-slate-900 outline-none">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Phone Number</label>
+                            <input type="tel" value="+91 98765 43210" class="w-full input-field rounded-xl px-4 py-3.5 text-sm font-bold text-slate-900 outline-none">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Date of Birth</label>
+                            <input type="date" value="1995-08-15" class="w-full input-field rounded-xl px-4 py-3.5 text-sm font-bold text-slate-900 outline-none">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 block">Passport Number</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-passport absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" value="Z9482104" class="w-full input-field rounded-xl pl-10 pr-4 py-3.5 text-sm font-bold text-slate-900 outline-none uppercase tracking-widest">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="nextStep(3)" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/30">
+                        Confirm & Upload Docs
+                    </button>
+                </div>
+
+                <!-- Step 3: Documents Upload -->
+                <div id="step3" class="step hidden step-transition">
+                    <button onclick="prevStep(2)" class="text-slate-400 hover:text-black text-[11px] uppercase tracking-widest font-black mb-6 flex items-center gap-1.5 w-max"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <h2 class="text-3xl font-black mb-3 text-slate-900 tracking-tight">Required Documents</h2>
+                    <p class="text-slate-500 text-sm font-medium mb-8">Securely upload the necessary files for <span id="docCountryName" class="font-bold text-slate-800">your destination</span>.</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        <div class="upload-box rounded-2xl p-6 text-center cursor-pointer bg-white/70" onclick="simulateUpload(this, 'passportStatus')">
+                            <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-3 text-blue-600 shadow-sm border border-blue-100">
                                 <i class="fa-solid fa-passport text-xl"></i>
                             </div>
-                            <p class="font-black text-slate-900 text-sm mb-1">Passport Front Page</p>
-                            <p class="text-xs text-slate-500 font-medium" id="passportStatus">Click to upload (PDF/JPG)
-                            </p>
+                            <p class="font-black text-slate-900 text-sm mb-1">Passport Front</p>
+                            <p class="text-xs text-slate-500 font-medium" id="passportStatus">Click to upload (PDF/JPG)</p>
                         </div>
-                        <div class="upload-box rounded-2xl p-6 text-center cursor-pointer bg-slate-50 border-2 border-dashed border-slate-200 hover:border-blue-600 hover:bg-blue-50 transition-all duration-200 group"
-                            onclick="simulateUpload(this, 'photoStatus')">
-                            <div
-                                class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-3 text-blue-600 group-hover:scale-110 transition-transform">
+                        <div class="upload-box rounded-2xl p-6 text-center cursor-pointer bg-white/70" onclick="simulateUpload(this, 'photoStatus')">
+                            <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-3 text-blue-600 shadow-sm border border-blue-100">
                                 <i class="fa-regular fa-image text-xl"></i>
                             </div>
-                            <p class="font-black text-slate-900 text-sm mb-1">Passport Size Photo</p>
+                            <p class="font-black text-slate-900 text-sm mb-1">Recent Photo</p>
                             <p class="text-xs text-slate-500 font-medium" id="photoStatus">Click to upload (JPG/PNG)</p>
                         </div>
                     </div>
 
-                    <button onclick="nextStep(3)" id="btnStep2" disabled
-                        class="w-full bg-blue-600 text-white py-4 rounded-full font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/30 disabled:opacity-50 disabled:shadow-none">
+                    <button onclick="nextStep(4)" id="btnStep3" disabled
+                        class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/30 disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed">
                         Proceed to Review
                     </button>
                 </div>
 
-                <!-- Step 3: Review & Pricing -->
-                <div id="step3" class="step hidden fade-in">
-                    <button onclick="prevStep(2)"
-                        class="text-slate-400 hover:text-black text-xs font-bold mb-4 flex items-center gap-1.5 transition-colors"><i
-                            class="fa-solid fa-arrow-left"></i> Back</button>
-                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1 block">Step 3 of 4</span>
+                <!-- Step 4: Review & Pricing -->
+                <div id="step4" class="step hidden step-transition">
+                    <button onclick="prevStep(3)" class="text-slate-400 hover:text-black text-[11px] uppercase tracking-widest font-black mb-6 flex items-center gap-1.5 w-max"><i class="fa-solid fa-arrow-left"></i> Back</button>
                     <h2 class="text-3xl font-black mb-6 text-slate-900 tracking-tight">Application Summary</h2>
 
-                    <div class="bg-slate-50 border border-slate-100 rounded-[2rem] p-6 mb-8 space-y-4">
-                        <div class="flex justify-between items-center pb-4 border-b border-slate-200 border-dashed">
-                            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Destination</span>
-                            <span class="font-black text-sm text-slate-900" id="sumCountry">-</span>
+                    <div class="bg-white/80 border border-slate-200 rounded-2xl p-6 mb-8 shadow-sm">
+                        <div class="flex justify-between items-center pb-4 border-b border-slate-200/60">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center"><i class="fa-solid fa-plane-arrival"></i></div>
+                                <div>
+                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Destination / Service</p>
+                                    <p class="font-black text-sm text-slate-900" id="sumCountry">-</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex justify-between items-center text-sm font-medium">
-                            <span class="text-slate-500">Government Visa Fee</span>
-                            <span class="font-bold text-slate-900">₹3,500</span>
+                        <div class="pt-4 space-y-3">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 font-medium">Government Fee</span>
+                                <span class="font-bold text-slate-900" id="govFee">₹3,500</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 font-medium">Traviora Service Fee</span>
+                                <span class="font-bold text-slate-900">₹999</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-500 font-medium">Taxes (18% GST)</span>
+                                <span class="font-bold text-slate-900">Included</span>
+                            </div>
                         </div>
-                        <div class="flex justify-between items-center text-sm font-medium">
-                            <span class="text-slate-500">Traviora Service Fee</span>
-                            <span class="font-bold text-slate-900">₹999</span>
-                        </div>
-                        <div class="pt-4 flex justify-between items-center text-lg">
+                        <div class="pt-4 mt-4 border-t border-slate-200/60 flex justify-between items-center">
                             <span class="font-black text-slate-900">Total Payable</span>
-                            <span class="text-blue-600 font-black text-2xl">₹4,499</span>
+                            <span class="text-blue-600 font-black text-2xl" id="totalPayable">₹4,499</span>
                         </div>
                     </div>
 
-                    <button onclick="nextStep(4)"
-                        class="w-full bg-blue-600 text-white py-4 rounded-full font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/30">
-                        Proceed to Payment
+                    <button onclick="nextStep(5)"
+                        class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/30">
+                        Continue to Payment
                     </button>
                 </div>
 
-                <!-- Step 4: Payment Simulation -->
-                <div id="step4" class="step hidden fade-in">
-                    <button onclick="prevStep(3)"
-                        class="text-slate-400 hover:text-black text-xs font-bold mb-4 flex items-center gap-1.5 transition-colors"><i
-                            class="fa-solid fa-arrow-left"></i> Back</button>
-                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1 block">Step 4 of 4</span>
-                    <h2 class="text-3xl font-black mb-6 text-slate-900 tracking-tight">Payment Method</h2>
+                <!-- Step 5: Payment -->
+                <div id="step5" class="step hidden step-transition">
+                    <button onclick="prevStep(4)" class="text-slate-400 hover:text-black text-[11px] uppercase tracking-widest font-black mb-6 flex items-center gap-1.5 w-max"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <h2 class="text-3xl font-black mb-3 text-slate-900 tracking-tight">Secure Checkout</h2>
+                    <p class="text-slate-500 text-sm font-medium mb-6">Choose your preferred payment method.</p>
 
-                    <div class="space-y-4 mb-8">
-                        <label
-                            class="flex items-center justify-between p-5 rounded-2xl border-2 border-slate-100 bg-white cursor-pointer hover:border-blue-600 transition-colors group">
-                            <div class="flex items-center gap-4">
-                                <input type="radio" name="pay" checked
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                <span class="font-bold text-sm text-slate-900">UPI / GPay / PhonePe</span>
-                            </div>
-                            <div
-                                class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-blue-600 group-hover:bg-blue-50 transition-colors">
-                                <i class="fa-solid fa-qrcode"></i>
+                    <div class="space-y-3 mb-8">
+                        <label class="relative block cursor-pointer group">
+                            <input type="radio" name="pay" class="peer sr-only custom-radio" checked>
+                            <div class="flex items-center justify-between p-4 rounded-xl border-2 border-slate-200 bg-white/80 backdrop-blur-sm transition-all group-hover:border-blue-300">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center peer-checked:border-blue-600 bg-white">
+                                        <div class="w-2.5 h-2.5 rounded-full radio-inner scale-0 transition-transform"></div>
+                                    </div>
+                                    <span class="font-bold text-sm text-slate-900">UPI / GPay / PhonePe</span>
+                                </div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" class="h-5 opacity-70">
                             </div>
                         </label>
-                        <label
-                            class="flex items-center justify-between p-5 rounded-2xl border-2 border-slate-100 bg-white cursor-pointer hover:border-blue-600 transition-colors group">
-                            <div class="flex items-center gap-4">
-                                <input type="radio" name="pay"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                <span class="font-bold text-sm text-slate-900">Credit / Debit Card</span>
-                            </div>
-                            <div
-                                class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 group-hover:text-blue-600 group-hover:bg-blue-50 transition-colors">
-                                <i class="fa-solid fa-credit-card"></i>
+                        <label class="relative block cursor-pointer group">
+                            <input type="radio" name="pay" class="peer sr-only custom-radio">
+                            <div class="flex items-center justify-between p-4 rounded-xl border-2 border-slate-200 bg-white/80 backdrop-blur-sm transition-all group-hover:border-blue-300">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center bg-white">
+                                        <div class="w-2.5 h-2.5 rounded-full radio-inner scale-0 transition-transform bg-blue-600"></div>
+                                    </div>
+                                    <span class="font-bold text-sm text-slate-900">Credit / Debit Card</span>
+                                </div>
+                                <div class="flex gap-1 opacity-70 text-lg">
+                                    <i class="fa-brands fa-cc-visa text-blue-800"></i>
+                                    <i class="fa-brands fa-cc-mastercard text-red-600"></i>
+                                </div>
                             </div>
                         </label>
                     </div>
 
-                    <button onclick="processPayment(this)"
-                        class="w-full bg-slate-900 text-white py-4 rounded-full font-black text-sm hover:bg-black transition shadow-lg shadow-black/20">
-                        Pay ₹4,499 Securely
+                    <button onclick="processPayment(this)" id="payBtn"
+                        class="w-full bg-slate-900 text-white py-4 rounded-xl font-black text-sm hover:bg-black transition shadow-xl shadow-black/20 flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-lock text-white/70"></i> Pay ₹4,499 Securely
                     </button>
+                    <p class="text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-4">256-bit SSL Encrypted</p>
                 </div>
 
-                <!-- Step 5: Success Receipt -->
-                <div id="step5" class="step hidden fade-in text-center py-6">
-                    <div
-                        class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600 text-2xl">
-                        <i class="fa-solid fa-check"></i>
+                <!-- Step 6: Success Receipt -->
+                <div id="step6" class="step hidden step-transition text-center py-8">
+                    <div class="relative w-24 h-24 mx-auto mb-6">
+                        <div class="absolute inset-0 bg-green-100 rounded-full animate-ping opacity-70"></div>
+                        <div class="relative w-full h-full bg-green-500 rounded-full flex items-center justify-center text-white text-4xl shadow-xl shadow-green-500/30">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
                     </div>
-                    <h2 class="text-2xl font-extrabold mb-1">Application Submitted!</h2>
-                    <p class="text-slate-500 text-xs mb-6">Your visa request is being processed by our experts.</p>
+                    <h2 class="text-3xl font-black mb-2 text-slate-900 tracking-tight">Application Submitted!</h2>
+                    <p class="text-slate-500 text-sm mb-8 font-medium">Your request is securely logged and being processed by our experts.</p>
 
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-6">
-                        <p class="text-xs text-slate-400 font-bold uppercase">Your Application ID</p>
-                        <p class="text-2xl font-extrabold text-blue-600 tracking-wider" id="generatedId">TRV-99412</p>
+                    <div class="bg-white/80 border border-slate-200 rounded-2xl p-6 mb-8 inline-block w-full max-w-sm">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">Your Application ID</p>
+                        <p class="text-3xl font-black text-blue-600 tracking-wider" id="generatedId">TRV-99412</p>
                     </div>
 
-                    <div class="flex gap-3">
-                        <a href="track.html"
-                            class="flex-1 bg-black text-white py-3 rounded-full text-sm font-bold hover:bg-slate-800 transition">Track
-                            Status</a>
-                        <a href="profile.html"
-                            class="flex-1 bg-slate-100 text-slate-700 py-3 rounded-full text-sm font-bold hover:bg-slate-200 transition">Go
-                            to Profile</a>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="track.html" class="flex-1 bg-black text-white py-3.5 rounded-xl text-sm font-bold hover:bg-slate-800 transition shadow-lg shadow-black/20">Track Status</a>
+                        <a href="profile.html" class="flex-1 bg-white border-2 border-slate-200 text-slate-700 py-3.5 rounded-xl text-sm font-bold hover:border-slate-300 hover:bg-slate-50 transition shadow-sm">Go to Profile</a>
                     </div>
                 </div>
 
@@ -268,151 +311,164 @@
         </div>
     </div>
 
-    <!-- Minimal Footer -->
-    <div class="py-4 text-center text-xs text-slate-400 font-medium">
-        Encrypted 256-bit SSL Checkout • Traviora Secure Applications
-    </div>
-
     <script>
-        const steps = [1, 2, 3, 4, 5].map(i => document.getElementById(`step${i}`));
-        const progressBar = document.getElementById('progressBar');
+        const totalSteps = 6;
+        const steps = Array.from({length: totalSteps}, (_, i) => document.getElementById(`step${i+1}`));
+        const progressBar = document.getElementById('progressCircle');
+        const progressText = document.getElementById('progressText');
+        const stepIndicator = document.getElementById('stepIndicator');
         let uploadCount = 0;
 
         // Dynamic Form Logic
         const urlParams = new URLSearchParams(window.location.search);
         const typeParam = urlParams.get('type') || 'visa';
         const destParam = urlParams.get('dest');
+        const priceParam = urlParams.get('price');
+        
+        let finalPrice = '₹4,499';
+        if (priceParam) {
+            finalPrice = priceParam;
+            const numericPrice = parseInt(priceParam.replace(/[^0-9]/g, ''));
+            if (!isNaN(numericPrice) && numericPrice > 999) {
+                const govFeeVal = numericPrice - 999;
+                const govFeeEl = document.getElementById('govFee');
+                if(govFeeEl) govFeeEl.innerText = '₹' + govFeeVal.toLocaleString('en-IN');
+            }
+            const totalEl = document.getElementById('totalPayable');
+            const payBtnEl = document.getElementById('payBtn');
+            if(totalEl) totalEl.innerText = finalPrice;
+            if(payBtnEl) payBtnEl.innerHTML = `<i class="fa-solid fa-lock text-white/70"></i> Pay ${finalPrice} Securely`;
+        }
 
         if (typeParam === 'tour') {
             document.title = "Book a Tour | Traviora";
-            document.querySelector('#step1 h2').innerText = "Select Tour Package";
+            document.getElementById('formTitle').innerText = "Tour Booking";
+            document.querySelector('#step1 h2').innerText = "Where to?";
             document.querySelector('#step1 p').innerText = "Choose your dream vacation package.";
             document.getElementById('countryGrid').innerHTML = `
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Dubai Luxury Getaway', this)">
-                    <div class="font-bold text-sm text-slate-900">Dubai Luxury Getaway</div>
-                    <div class="text-[10px] text-slate-500 font-medium">4D/3N</div>
-                </div>
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Kerala Backwaters', this)">
-                    <div class="font-bold text-sm text-slate-900">Kerala Backwaters</div>
-                    <div class="text-[10px] text-slate-500 font-medium">5D/4N</div>
-                </div>
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Swiss Alps Explorer', this)">
-                    <div class="font-bold text-sm text-slate-900">Swiss Alps Explorer</div>
-                    <div class="text-[10px] text-slate-500 font-medium">7D/6N</div>
-                </div>
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Bali Island Hopping', this)">
-                    <div class="font-bold text-sm text-slate-900">Bali Island Hopping</div>
-                    <div class="text-[10px] text-slate-500 font-medium">6D/5N</div>
-                </div>
+                <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-blue-600 hover:shadow-md transition-all text-center group" onclick="selectCountry('Dubai Luxury Getaway', this)"><div class="font-bold text-xs text-slate-900 mt-2">Dubai<br>Luxury</div></div>
+                <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-blue-600 hover:shadow-md transition-all text-center group" onclick="selectCountry('Kerala Backwaters', this)"><div class="font-bold text-xs text-slate-900 mt-2">Kerala<br>Backwaters</div></div>
+                <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-blue-600 hover:shadow-md transition-all text-center group" onclick="selectCountry('Swiss Alps Explorer', this)"><div class="font-bold text-xs text-slate-900 mt-2">Swiss<br>Alps</div></div>
+                <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer hover:border-blue-600 hover:shadow-md transition-all text-center group" onclick="selectCountry('Bali Island Hopping', this)"><div class="font-bold text-xs text-slate-900 mt-2">Bali<br>Island</div></div>
             `;
-            document.querySelector('#step2 h2').innerText = "Passenger Details";
-            document.querySelector('#step2 p').innerText = "Enter the number of travelers.";
-            document.querySelector('#step2 .space-y-4').innerHTML = `
-                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 flex justify-between items-center">
+            
+            // Adjust Step 3 for Tours
+            document.querySelector('#step3 h2').innerText = "Passenger Details";
+            document.querySelector('#step3 p').innerText = "Enter the number of travelers for the tour.";
+            document.querySelector('#step3 .grid').innerHTML = `
+                <div class="bg-white/70 border border-slate-200 rounded-2xl p-5 flex justify-between items-center">
                     <div>
                         <p class="font-black text-slate-900 text-sm mb-1">Adults</p>
                         <p class="text-xs text-slate-500 font-medium">12+ years</p>
                     </div>
-                    <input type="number" min="1" value="2" class="w-20 bg-white border border-slate-300 rounded-xl px-3 py-2 text-center font-bold outline-none focus:border-blue-600">
+                    <input type="number" min="1" value="2" class="w-16 bg-white border border-slate-200 rounded-xl px-2 py-2 text-center font-bold outline-none focus:border-blue-600">
                 </div>
-                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 flex justify-between items-center">
+                <div class="bg-white/70 border border-slate-200 rounded-2xl p-5 flex justify-between items-center">
                     <div>
                         <p class="font-black text-slate-900 text-sm mb-1">Children</p>
                         <p class="text-xs text-slate-500 font-medium">2-11 years</p>
                     </div>
-                    <input type="number" min="0" value="0" class="w-20 bg-white border border-slate-300 rounded-xl px-3 py-2 text-center font-bold outline-none focus:border-blue-600">
+                    <input type="number" min="0" value="0" class="w-16 bg-white border border-slate-200 rounded-xl px-2 py-2 text-center font-bold outline-none focus:border-blue-600">
                 </div>
             `;
-            document.getElementById('btnStep2').disabled = false;
+            document.getElementById('btnStep3').disabled = false;
         } else if (typeParam === 'hotel') {
             document.title = "Book Hotel | Traviora";
-            document.querySelector('#step1 h2').innerText = "Select Destination City";
-            document.querySelector('#step1 p').innerText = "Where do you want to stay?";
+            document.getElementById('formTitle').innerText = "Hotel Booking";
+            document.querySelector('#step1 h2').innerText = "Select City";
             document.getElementById('countryGrid').innerHTML = `
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Dubai', this)"><div class="font-bold text-sm text-slate-900">Dubai</div></div>
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('London', this)"><div class="font-bold text-sm text-slate-900">London</div></div>
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Paris', this)"><div class="font-bold text-sm text-slate-900">Paris</div></div>
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Singapore', this)"><div class="font-bold text-sm text-slate-900">Singapore</div></div>
+                <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer text-center hover:border-blue-600" onclick="selectCountry('Dubai', this)"><div class="font-bold text-sm text-slate-900 mt-2">Dubai</div></div>
+                <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer text-center hover:border-blue-600" onclick="selectCountry('London', this)"><div class="font-bold text-sm text-slate-900 mt-2">London</div></div>
+                <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer text-center hover:border-blue-600" onclick="selectCountry('Paris', this)"><div class="font-bold text-sm text-slate-900 mt-2">Paris</div></div>
+                <div class="country-card bg-white/70 border border-slate-200 rounded-2xl p-4 cursor-pointer text-center hover:border-blue-600" onclick="selectCountry('Singapore', this)"><div class="font-bold text-sm text-slate-900 mt-2">Singapore</div></div>
             `;
-            document.querySelector('#step2 h2').innerText = "Dates & Guests";
-            document.querySelector('#step2 p').innerText = "Select your check-in dates.";
-            document.querySelector('#step2 .space-y-4').innerHTML = `
-                <input type="date" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-4 text-sm font-bold outline-none mb-4 focus:border-blue-600">
-                <input type="date" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-4 text-sm font-bold outline-none focus:border-blue-600">
+            document.querySelector('#step3 h2').innerText = "Dates & Guests";
+            document.querySelector('#step3 p').innerText = "Select your check-in and check-out dates.";
+            document.querySelector('#step3 .grid').innerHTML = `
+                <div class="col-span-1 sm:col-span-2 space-y-3">
+                    <input type="date" class="w-full bg-white/70 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-sm font-bold outline-none focus:border-blue-600">
+                    <input type="date" class="w-full bg-white/70 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-sm font-bold outline-none focus:border-blue-600">
+                </div>
             `;
-            document.getElementById('btnStep2').disabled = false;
-        } else if (typeParam === 'other') {
-            document.title = "Service Application | Traviora";
-            document.querySelector('#step1 h2').innerText = "Select Service";
-            document.querySelector('#step1 p').innerText = "What can we help you with today?";
-            document.getElementById('countryGrid').innerHTML = `
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Immigration Service', this)"><div class="font-bold text-sm text-slate-900">Immigration</div></div>
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('IELTS Preparation', this)"><div class="font-bold text-sm text-slate-900">IELTS Prep</div></div>
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Legal Advisory', this)"><div class="font-bold text-sm text-slate-900">Legal Advisory</div></div>
-                <div class="country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200" onclick="selectCountry('Travel Insurance', this)"><div class="font-bold text-sm text-slate-900">Travel Insurance</div></div>
-            `;
-            document.querySelector('#step2 h2').innerText = "Contact Information";
-            document.querySelector('#step2 p').innerText = "Provide details so we can reach you.";
-            document.querySelector('#step2 .space-y-4').innerHTML = `
-                <input type="text" placeholder="Full Name" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-4 text-sm font-bold outline-none focus:border-blue-600 mb-4">
-                <input type="email" placeholder="Email Address" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-4 text-sm font-bold outline-none focus:border-blue-600">
-            `;
-            document.getElementById('btnStep2').disabled = false;
+            document.getElementById('btnStep3').disabled = false;
         }
 
         if (destParam) {
-            setTimeout(() => {
-                let found = false;
-                document.querySelectorAll('.country-card').forEach(c => {
-                    if (c.innerText.toLowerCase().includes(destParam.toLowerCase())) {
-                        c.click();
-                        found = true;
-                    }
-                });
-                
-                // If the selected destination (tour/hotel/visa) isn't in the top 4 default grid, inject it dynamically
-                if (!found) {
-                    const grid = document.getElementById('countryGrid');
-                    const newCard = document.createElement('div');
-                    newCard.className = 'country-card border-2 border-slate-100 bg-slate-50 rounded-2xl p-4 cursor-pointer transition-all duration-200';
-                    newCard.onclick = function() { selectCountry(destParam, this); };
-                    
-                    let icon = '🌍';
-                    if (typeParam === 'hotel') icon = '🏨';
-                    else if (typeParam === 'tour') icon = '✈️';
-                    else if (typeParam === 'visa') icon = '🛂';
-                    
-                    newCard.innerHTML = `
-                        <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-lg mb-2 shadow-sm">${icon}</div>
-                        <div class="font-bold text-sm text-slate-900 line-clamp-1">${destParam}</div>
-                        <div class="text-[10px] text-slate-500 font-medium">Selected</div>
-                    `;
-                    
-                    // Replace the last card with the newly selected one
-                    if(grid.children.length > 0) {
-                        grid.removeChild(grid.lastElementChild);
-                    }
-                    grid.insertBefore(newCard, grid.firstChild);
-                    newCard.click();
+            // Instantly skip Step 1 because destination is chosen
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+            
+            // Still update state
+            let found = false;
+            document.querySelectorAll('.country-card').forEach(c => {
+                if (c.innerText.toLowerCase().includes(destParam.toLowerCase())) {
+                    c.classList.add('border-blue-600', 'ring-2', 'ring-blue-600/20');
+                    found = true;
                 }
-            }, 100);
+            });
+            
+            document.getElementById('btnStep1').disabled = false;
+            document.getElementById('sumCountry').innerText = destParam;
+            const docCountry = document.getElementById('docCountryName');
+            if(docCountry) docCountry.innerText = destParam;
+            
+            const step2Heading = document.getElementById('step2Heading');
+            if (step2Heading) {
+                step2Heading.innerText = `Details for ${destParam}`;
+            }
+
+            if (!found) {
+                const grid = document.getElementById('countryGrid');
+                const newCard = document.createElement('div');
+                newCard.className = 'country-card bg-blue-50 border-2 border-blue-600 rounded-2xl p-4 cursor-pointer text-center';
+                newCard.onclick = function() { selectCountry(destParam, this); };
+                let icon = typeParam === 'hotel' ? '🏨' : typeParam === 'tour' ? '✈️' : '🛂';
+                newCard.innerHTML = `<div class="text-2xl mb-2">${icon}</div><div class="font-bold text-xs text-slate-900">${destParam}</div>`;
+                if(grid.children.length > 0) grid.removeChild(grid.lastElementChild);
+                grid.insertBefore(newCard, grid.firstChild);
+            }
+            updateProgress(2);
+        } else {
+            updateProgress(1);
         }
 
         function selectCountry(name, element) {
             document.querySelectorAll('.country-card').forEach(c => {
-                c.classList.remove('border-blue-600', 'bg-blue-50');
-                c.classList.add('border-slate-100', 'bg-slate-50');
+                c.classList.remove('border-blue-600', 'ring-2', 'ring-blue-600/20', 'bg-blue-50');
             });
-            element.classList.remove('border-slate-100', 'bg-slate-50');
-            element.classList.add('border-blue-600', 'bg-blue-50');
+            element.classList.add('border-blue-600', 'ring-2', 'ring-blue-600/20', 'bg-blue-50');
 
             document.getElementById('btnStep1').disabled = false;
             document.getElementById('sumCountry').innerText = name;
+            const docCountry = document.getElementById('docCountryName');
+            if(docCountry) docCountry.innerText = name;
+            
+            const step2Heading = document.getElementById('step2Heading');
+            if (step2Heading) {
+                step2Heading.innerText = `Details for ${name}`;
+            }
+        }
+
+        function updateProgress(idx) {
+            if (idx > 5) idx = 5;
+            const percentage = (idx / 5) * 100;
+            progressBar.setAttribute('stroke-dasharray', `${percentage}, 100`);
+            progressText.innerText = `${Math.round(percentage)}%`;
+            stepIndicator.innerText = `Step ${idx} of 5`;
         }
 
         function showStep(idx) {
-            steps.forEach((s, i) => s.classList.toggle('hidden', i !== idx - 1));
-            progressBar.style.width = `${(idx / 5) * 100}%`;
+            steps.forEach((s, i) => {
+                if (s) {
+                    s.classList.toggle('hidden', i !== idx - 1);
+                    if (i === idx - 1) {
+                        s.classList.remove('step-transition');
+                        void s.offsetWidth; 
+                        s.classList.add('step-transition');
+                    }
+                }
+            });
+            updateProgress(idx);
         }
 
         function nextStep(idx) { showStep(idx); }
@@ -424,50 +480,40 @@
             setTimeout(() => {
                 elem.style.borderColor = '#22c55e';
                 elem.style.background = '#f0fdf4';
-                status.innerHTML = `<span class="text-green-600 font-bold"><i class="fa-solid fa-check mr-1"></i> Verified</span>`;
+                elem.querySelector('.fa-solid, .fa-regular').classList.replace('text-blue-600', 'text-green-500');
+                status.innerHTML = `<span class="text-green-600 font-bold"><i class="fa-solid fa-check-circle mr-1"></i> Verified</span>`;
                 uploadCount++;
-                if (uploadCount >= 2) document.getElementById('btnStep2').disabled = false;
+                if (uploadCount >= 2) document.getElementById('btnStep3').disabled = false;
             }, 1000);
         }
 
         function processPayment(btn) {
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Verifying Payment...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Processing...`;
             setTimeout(() => {
                 const randomId = 'TRV-' + Math.floor(10000 + Math.random() * 90000);
                 document.getElementById('generatedId').innerText = randomId;
                 
-                // Senior Developer Logic: Save booking state to local DB
                 const db = JSON.parse(localStorage.getItem('TravioraDb')) || { profile: { name: 'Rohan Sharma', email: 'rohan.sharma@example.com', phone: '+91 98765 43210', pass: 'Z9482104' }, bookings: [] };
                 
                 let destName = document.getElementById('sumCountry') ? document.getElementById('sumCountry').innerText : destParam;
-                if (!destName || destName === '-') destName = destParam || 'Custom Service';
+                if (!destName || destName === '-') destName = destParam || 'Service';
                 
                 db.bookings.push({
                     id: randomId,
                     type: typeParam,
                     title: destName,
                     date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-                    price: '₹4,499',
+                    price: finalPrice,
                     status: typeParam === 'visa' ? 'Processing' : 'Confirmed'
                 });
                 localStorage.setItem('TravioraDb', JSON.stringify(db));
 
-                showStep(5);
-            }, 1800);
+                showStep(6);
+                const header = document.getElementById('formHeader');
+                if (header) header.style.display = 'none';
+            }, 1500);
         }
-        // Smart Navbar Auto-Hide on Scroll
-        let lastScrollY = window.scrollY;
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > lastScrollY && window.scrollY > 100) {
-                navbar.classList.add('-translate-y-full');
-            } else {
-                navbar.classList.remove('-translate-y-full');
-            }
-            lastScrollY = window.scrollY;
-        });
     </script>
 </body>
-
 </html>
